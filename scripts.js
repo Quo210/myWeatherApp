@@ -58,4 +58,17 @@ const interface = (() => {
     const getLat = () => latBox.value;
     const getLon = () => lonBox.value;
 
+    return {
+        getName, getLat, getLon,
+    }
+
 })()
+
+const byNameButton = document.querySelector('button.ByName')
+byNameButton.addEventListener('click', () => {
+    const input = interface.getName();
+    weatherApp.byName(input).then(array => {
+        return weatherApp.extractLocation(array[0])
+    }).then(coords => {
+        return weatherApp.byCoords(coords.lat,coords.lon).then(weather => console.log(weather))})
+})
