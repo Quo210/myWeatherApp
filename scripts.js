@@ -67,6 +67,8 @@ const interface = (() => {
     const nameBox = document.querySelector('#searchByName')
     const latBox = document.querySelector('#lat')
     const lonBox = document.querySelector('#lot')
+    const upperReport = document.querySelector('div.top')
+    const lowerReport = document.querySelector('div.bottom')
     const getName = () => nameBox.value;
     const getLat = () => latBox.value;
     const getLon = () => lonBox.value;
@@ -78,8 +80,13 @@ const interface = (() => {
         return [a,b]
     }
 
+    function showReport(array){
+        upperReport.textContent = array[0]
+        lowerReport.textContent = array[1]
+    }
+
     return {
-        getName, getLat, getLon, humanReport: createHumanReport,
+        getName, getLat, getLon, humanReport: createHumanReport, showReport,
     }
 
 })()
@@ -93,7 +100,7 @@ byNameButton.addEventListener('click',async () => {
         const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon);
         const reportItems = weatherApp.getCuratedInfo(weather)
         const humanReport = interface.humanReport(reportItems)
-        console.log(humanReport)
+        interface.showReport(humanReport)
     } catch (error) {
         console.error(error)
     }
