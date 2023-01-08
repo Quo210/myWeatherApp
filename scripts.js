@@ -26,4 +26,16 @@ function round(num){
     return Math.round( num * 100 ) / 100
 }
 
-geocodeByName('London').then(res => console.log(res))
+function extractLocation(obj){
+    return {
+        lat: obj.lat,
+        lon: obj.lon,
+        locName: obj.state || obj.country || '404' 
+    }
+}
+
+// Example of tested code
+// geocodeByName('Maracay').then(array => {
+//     return extractLocation(array[0])
+// }).then(coords => {
+//     return getCurrentWeather(coords.lat,coords.lon).then(weather => console.log(weather))})
