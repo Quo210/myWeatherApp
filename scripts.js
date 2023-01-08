@@ -12,5 +12,18 @@ async function getCurrentWeather(lat,lon){
     }
 }
 
-const x = getCurrentWeather(12,15)
-x.then(info => console.log(info))
+async function geocodeByName(str){
+    try {
+        const coordObj = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${str}&limit=3&appid=${key}`)
+        .then(response => response.json());
+        return coordObj
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+function round(num){
+    return Math.round( num * 100 ) / 100
+}
+
+geocodeByName('London').then(res => console.log(res))
