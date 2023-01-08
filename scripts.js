@@ -65,10 +65,18 @@ const interface = (() => {
 })()
 
 const byNameButton = document.querySelector('button.ByName')
-byNameButton.addEventListener('click', () => {
-    const input = interface.getName();
-    weatherApp.byName(input).then(array => {
-        return weatherApp.extractLocation(array[0])
-    }).then(coords => {
-        return weatherApp.byCoords(coords.lat,coords.lon).then(weather => console.log(weather))})
+byNameButton.addEventListener('click',async () => {
+    try {
+        const input = interface.getName();
+        const locationArray = await weatherApp.byName(input)
+        const firstLocation = weatherApp.extractLocation(locationArray[0])
+        const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon);
+        console.log(weather)
+    } catch (error) {
+        console.error(error)
+    }
+
+    
+    // then(coords => {
+    //     return .then(weather => console.log(weather))})
 })
