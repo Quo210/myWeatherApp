@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>My Weather App</h1>
+    <h6>Search the current weather conditions around the world</h6>
+
+    <div class="container">
+        <div class="name">
+            <label for="byName">Search by name</label>
+            <input type="text" name="byName" id="searchByName">
+            <button class="Byname">Search Now</button>
+        </div>
+        <div class="coords">
+            <label for="byCoords">Search by coordinates</label>
+            <div class="wrapper" name="byCoords">
+                <input type="text" name="lat" id="lat" maxlength="3">
+                <input type="text" name="lon" id="lon" maxlength="3">
+            </div>
+            <button class="byCoords">Search Now</button>
+        </div>
+    </div>
     
     <script src="scripts.js"></script>
 </body>
