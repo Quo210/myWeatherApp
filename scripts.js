@@ -55,14 +55,6 @@ const weatherApp = ( () => {
     }
 } )();
 
-
-
-// Example of tested code
-// geocodeByName('Maracay').then(array => {
-//     return extractLocation(array[0])
-// }).then(coords => {
-//     return getCurrentWeather(coords.lat,coords.lon).then(weather => console.log(weather))})
-
 const interface = (() => {
     const nameBox = document.querySelector('#searchByName')
     const latBox = document.querySelector('#lat')
@@ -94,18 +86,14 @@ const interface = (() => {
 const byNameButton = document.querySelector('button.ByName')
 byNameButton.addEventListener('click',async () => {
     try {
-        const input = interface.getName();
-        const locationArray = await weatherApp.byName(input)
-        const firstLocation = weatherApp.extractLocation(locationArray[0])
-        const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon);
-        const reportItems = weatherApp.getCuratedInfo(weather)
-        const humanReport = interface.humanReport(reportItems)
-        interface.showReport(humanReport)
+        const input = interface.getName(); // take the name of the location from user input 
+        const locationArray = await weatherApp.byName(input) // fetch and jsonify server response
+        const firstLocation = weatherApp.extractLocation(locationArray[0]) // extract coordinates from response
+        const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon); // use coords to fetch and jsonify current weather on the selected location
+        const reportItems = weatherApp.getCuratedInfo(weather) // extract information from response to be used, save in object
+        const humanReport = interface.humanReport(reportItems) // Create a string of human readable information about the weather
+        interface.showReport(humanReport) // Show information in the interface
     } catch (error) {
         console.error(error)
     }
-
-    
-    // then(coords => {
-    //     return .then(weather => console.log(weather))})
 })
