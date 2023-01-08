@@ -35,10 +35,23 @@ const weatherApp = ( () => {
         }
     }
 
+    function makeReportObj(weatherResponse){
+        const a = weatherResponse;
+        return {
+            weather: a.weather[0].main,
+            description: a.weather[0].description,
+            humidity: `${a.main.humidity}%`,
+            temp: `${a.main.temp}° F`,
+            clouds: `${a.clouds.all}%`,
+            time: new Date(a.dt * 1000).toGMTString(),
+            city: a.name
+        }}
+
     return {
         byCoords: getCurrentWeather,
         byName: geocodeByName,
         extractLocation,
+        getCuratedInfo: makeReportObj,
     }
 } )();
 
@@ -58,8 +71,15 @@ const interface = (() => {
     const getLat = () => latBox.value;
     const getLon = () => lonBox.value;
 
+    function createHumanReport(weatherObj){
+        const x = weatherObj;
+        const a = `The current weather in ${x.city} qualifies as "${x.weather}-ish", reported mostly as ${x.description}.`; 
+        const b = `This information was taken at ${x.time}, temperature: ${x.temp}, humidity: ${x.humidity} and the sky was ${x.clouds} clouds. `
+        return [a,b]
+    }
+
     return {
-        getName, getLat, getLon,
+        getName, getLat, getLon, humanReport: createHumanReport,
     }
 
 })()
@@ -71,7 +91,9 @@ byNameButton.addEventListener('click',async () => {
         const locationArray = await weatherApp.byName(input)
         const firstLocation = weatherApp.extractLocation(locationArray[0])
         const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon);
-        console.log(weather)
+        const reportItems = weatherApp.getCuratedInfo(weather)
+        const humanReport = interface.humanReport(reportItems)
+        console.log(humanReport)
     } catch (error) {
         console.error(error)
     }
