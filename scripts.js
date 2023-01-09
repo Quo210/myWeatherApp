@@ -58,7 +58,7 @@ const weatherApp = ( () => {
 const interface = (() => {
     const nameBox = document.querySelector('#searchByName')
     const latBox = document.querySelector('#lat')
-    const lonBox = document.querySelector('#lot')
+    const lonBox = document.querySelector('#lon')
     const upperReport = document.querySelector('div.top')
     const lowerReport = document.querySelector('div.bottom')
     const getName = () => nameBox.value;
@@ -77,12 +77,27 @@ const interface = (() => {
         lowerReport.textContent = array[1]
     }
 
+    function viableCoords(){
+        const a = parseInt( getLat() )
+        const b = parseInt( getLon() )
+        switch(true){
+            case (a == undefined || b == undefined):
+            case (isNaN(a) || isNaN(b)):
+                return false
+                break;
+            default: 
+                return true
+        }
+        
+    }
+
     return {
-        getName, getLat, getLon, humanReport: createHumanReport, showReport,
+        getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords,
     }
 
 })()
 
+//Name button
 const byNameButton = document.querySelector('button.ByName')
 byNameButton.addEventListener('click',async () => {
     try {
@@ -96,4 +111,10 @@ byNameButton.addEventListener('click',async () => {
     } catch (error) {
         console.error(error)
     }
+});
+
+// Coords button
+const coButton = document.querySelector('button.byCoords');
+coButton.addEventListener('click',async () => {
+
 })
