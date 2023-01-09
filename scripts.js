@@ -88,11 +88,14 @@ const interface = (() => {
             default: 
                 return true
         }
-        
+    }
+
+    function clearCoords(){
+        [latBox,lonBox].forEach(a => a.value = '')
     }
 
     return {
-        getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords,
+        getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords, clearCoords
     }
 
 })()
@@ -116,5 +119,13 @@ byNameButton.addEventListener('click',async () => {
 // Coords button
 const coButton = document.querySelector('button.byCoords');
 coButton.addEventListener('click',async () => {
+    if (!interface.isCoordViable()){
+        alert('One of the coordinates entered is not viable. Use positive or negative numbers.')
+        interface.clearCoords()
+    }
+    const searchResult = await weatherApp.byCoords(interface.getLat(),interface.getLon())
+    interface.showReport(
+        interface.humanReport(
+            weatherApp.getCuratedInfo(searchResult)))
 
 })
