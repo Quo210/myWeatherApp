@@ -19,7 +19,7 @@ const weatherApp = ( () => {
     
     async function geocodeByName(str){
         try {
-            const coordObj = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${str}&limit=3&appid=${key}`)
+            const coordObj = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${str}&limit=5&appid=${key}`)
             .then(response => response.json());
             return coordObj
         } catch (err) {
@@ -94,8 +94,25 @@ const interface = (() => {
         [latBox,lonBox].forEach(a => a.value = '')
     }
 
+    function makeOptionBox(obj){
+        const container = document.createElement('div');
+        const header = document.createElement('h2');
+        [container, header].forEach(e => e.classList.add('optionBox'));
+        let dataKey = `${obj.name},${obj.country}`;
+        let information = `"${obj.name}" - ${obj.country}`; 
+        if(obj.state){
+            dataKey += `,${obj.state}`;
+            information += ` (${obj.state})`;
+        } 
+        container.setAttribute('data-key',dataKey);
+        header.textContent = information;
+        container.appendChild(header)
+        return container
+    }
+
     return {
-        getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords, clearCoords
+        getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords, clearCoords,
+        makeOptionBox,
     }
 
 })()
@@ -106,6 +123,7 @@ byNameButton.addEventListener('click',async () => {
     try {
         const input = interface.getName(); // take the name of the location from user input 
         const locationArray = await weatherApp.byName(input) // fetch and jsonify server response
+
         const firstLocation = weatherApp.extractLocation(locationArray[0]) // extract coordinates from response
         const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon); // use coords to fetch and jsonify current weather on the selected location
         const reportItems = weatherApp.getCuratedInfo(weather) // extract information from response to be used, save in object
