@@ -98,10 +98,10 @@ const interface = (() => {
         const container = document.createElement('div');
         const header = document.createElement('h2');
         [container, header].forEach(e => e.classList.add('optionBox'));
-        let dataKey = `${obj.name},${obj.country}`;
+        let dataKey = `${obj.lat},${obj.lon}`;
         let information = `"${obj.name}" - ${obj.country}`; 
         if(obj.state){
-            dataKey += `,${obj.state}`;
+            //dataKey += `,${obj.state}`;
             information += ` (${obj.state})`;
         } 
         container.setAttribute('data-key',dataKey);
