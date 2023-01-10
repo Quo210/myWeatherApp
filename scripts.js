@@ -126,9 +126,17 @@ const interface = (() => {
         document.querySelector('img.gif').setAttribute('src',url)
     }
 
+    function clearLocationBoxes(){
+        interface.getOptionsBox().innerHTML = '';
+    }
+
+    function getOptionsBox(){
+        return document.querySelector('div.options')
+    }
+
     return {
         getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords, clearCoords,
-        makeOptionBox, showGif
+        makeOptionBox, showGif, getOptionsBox, clearLocationBoxes
     }
 
 })()
@@ -146,13 +154,14 @@ byNameButton.addEventListener('click',async () => {
     try {
         const input = interface.getName(); // take the name of the location from user input 
         const locationArray = await weatherApp.byName(input) // fetch and jsonify server response
+        interface.clearLocationBoxes();
         for (let i = 0; i < locationArray.length; i++){
             const box = interface.makeOptionBox(locationArray[i])
             box.addEventListener('click', function() {
                 const coords = this.getAttribute('data-key').split(",")
                 searchFunctionWrapper(coords)
             })
-            document.querySelector('div.options').appendChild(box)
+            interface.getOptionsBox().appendChild(box)
         }
         const firstLocation = weatherApp.extractLocation(locationArray[0]) // extract coordinates from response
         const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon); // use coords to fetch and jsonify current weather on the selected location
