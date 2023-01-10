@@ -47,11 +47,23 @@ const weatherApp = ( () => {
             city: a.name
         }}
 
+    async function getClimateGif(obj){
+        try {
+            const gifResponse = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=P94o4DBJDiZLCQ5yRXonVgA4CZ4ICarl&s=${obj.weather}`,{ mode: 'cors'}).then(res => res.json())
+            return gifResponse.data.images.original.url
+        } catch(err){
+            console.error(err)
+        }
+        
+    }
+     
+
     return {
         byCoords: getCurrentWeather,
         byName: geocodeByName,
         extractLocation,
         getCuratedInfo: makeReportObj,
+        getClimateGif
     }
 } )();
 
@@ -110,9 +122,13 @@ const interface = (() => {
         return container
     }
 
+    function showGif(url){
+        document.querySelector('img.gif').setAttribute('src',url)
+    }
+
     return {
         getName, getLat, getLon, humanReport: createHumanReport, showReport, isCoordViable: viableCoords, clearCoords,
-        makeOptionBox,
+        makeOptionBox, showGif
     }
 
 })()
@@ -141,6 +157,8 @@ byNameButton.addEventListener('click',async () => {
         const firstLocation = weatherApp.extractLocation(locationArray[0]) // extract coordinates from response
         const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon); // use coords to fetch and jsonify current weather on the selected location
         const reportItems = weatherApp.getCuratedInfo(weather) // extract information from response to be used, save in object
+        const gif = await weatherApp.getClimateGif(reportItems) // gyphy search API
+        interface.showGif(gif)
         const humanReport = interface.humanReport(reportItems) // Create a string of human readable information about the weather
         interface.showReport(humanReport) // Show information in the interface
     } catch (error) {
@@ -161,3 +179,5 @@ coButton.addEventListener('click',async () => {
             weatherApp.getCuratedInfo(searchResult)))
 
 })
+
+weatherApp.getClimateGif({weather: "Cloud"})
