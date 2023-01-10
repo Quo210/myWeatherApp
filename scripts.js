@@ -117,6 +117,13 @@ const interface = (() => {
 
 })()
 
+const searchFunctionWrapper = async (coords) => {
+    const weather = await weatherApp.byCoords(coords[0],coords[1]); // use coords to fetch and jsonify current weather on the selected location
+    const reportItems = weatherApp.getCuratedInfo(weather) // extract information from response to be used, save in object
+    const humanReport = interface.humanReport(reportItems) // Create a string of human readable information about the weather
+    interface.showReport(humanReport) // Show information in the interface
+}
+
 //Name button
 const byNameButton = document.querySelector('button.ByName')
 byNameButton.addEventListener('click',async () => {
@@ -125,6 +132,10 @@ byNameButton.addEventListener('click',async () => {
         const locationArray = await weatherApp.byName(input) // fetch and jsonify server response
         for (let i = 0; i < locationArray.length; i++){
             const box = interface.makeOptionBox(locationArray[i])
+            box.addEventListener('click', function() {
+                const coords = this.getAttribute('data-key').split(",")
+                searchFunctionWrapper(coords)
+            })
             document.querySelector('div.options').appendChild(box)
         }
         const firstLocation = weatherApp.extractLocation(locationArray[0]) // extract coordinates from response
