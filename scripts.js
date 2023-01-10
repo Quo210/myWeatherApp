@@ -123,7 +123,10 @@ byNameButton.addEventListener('click',async () => {
     try {
         const input = interface.getName(); // take the name of the location from user input 
         const locationArray = await weatherApp.byName(input) // fetch and jsonify server response
-
+        for (let i = 0; i < locationArray.length; i++){
+            const box = interface.makeOptionBox(locationArray[i])
+            document.querySelector('div.options').appendChild(box)
+        }
         const firstLocation = weatherApp.extractLocation(locationArray[0]) // extract coordinates from response
         const weather = await weatherApp.byCoords(firstLocation.lat,firstLocation.lon); // use coords to fetch and jsonify current weather on the selected location
         const reportItems = weatherApp.getCuratedInfo(weather) // extract information from response to be used, save in object
