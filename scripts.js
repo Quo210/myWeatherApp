@@ -79,7 +79,7 @@ const interface = (() => {
 
     function createHumanReport(weatherObj){
         const x = weatherObj;
-        const a = `The current weather in ${x.city} qualifies as "${x.weather}-ish", reported mostly as ${x.description}.`; 
+        const a = `The current weather in ${x.city || 'these coordinates'} qualifies as "${x.weather}-ish", reported mostly as ${x.description}.`; 
         const b = `This information was taken at ${x.time}, temperature: ${x.temp}, humidity: ${x.humidity} and the sky was ${x.clouds} clouds. `
         return [a,b]
     }
