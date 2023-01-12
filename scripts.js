@@ -119,7 +119,7 @@ const interface = (() => {
             information += ` (${obj.state})`;
         } 
         container.setAttribute('data-key',dataKey);
-        container.setAttribute('href','#reporter');
+        //container.setAttribute('href','#reporter'); removed due to conflict with htmlpreview.io
         header.textContent = information;
         container.appendChild(header)
         return container
