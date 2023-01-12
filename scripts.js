@@ -95,6 +95,8 @@ const interface = (() => {
         switch(true){
             case (a == undefined || b == undefined):
             case (isNaN(a) || isNaN(b)):
+            case (a > 90 || a < -90):
+            case (b > 180 || b < -180):
                 return false
                 break;
             default: 
@@ -178,15 +180,21 @@ byNameButton.addEventListener('click',async () => {
 // Coords button
 const coButton = document.querySelector('button.byCoords');
 coButton.addEventListener('click',async () => {
-    if (!interface.isCoordViable()){
-        alert('One of the coordinates entered is not viable. Use positive or negative numbers.')
-        interface.clearCoords()
+
+    try {
+        if (!interface.isCoordViable()){
+            alert('One of the coordinates entered is not viable.\nLATITUDE: 90 to -90 / LONGITUDE: 180 to -180')
+            interface.clearCoords()
+        }
+        const searchResult = await weatherApp.byCoords(interface.getLat(),interface.getLon());
+        if (searchResult.cod == "400") { throw new Error('Bad Request') }
+        const reportItems = weatherApp.getCuratedInfo(searchResult);
+        interface.showReport( interface.humanReport(reportItems))
+        const gif = await weatherApp.getClimateGif(reportItems) // gyphy search API
+        interface.showGif(gif)
+    } catch (error) {
+        console.error(error)
     }
-    const searchResult = await weatherApp.byCoords(interface.getLat(),interface.getLon())
-    interface.showReport(
-        interface.humanReport(
-            weatherApp.getCuratedInfo(searchResult)))
+    
 
 })
-
-weatherApp.getClimateGif({weather: "Cloud"})
