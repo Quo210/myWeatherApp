@@ -9,34 +9,35 @@
 </head>
 <body>
     <h1>My Weather App</h1>
-    <h6>Search the current weather conditions around the world</h6>
+    <h3>Search and know the weather around the world</h3>
 
-    <div class="container">
-        <div class="name">
+    <div class="container limitWidth">
+        <div class="name centerFrame flexCols">
             <label for="byName">Search by name</label>
-            <input type="text" name="byName" id="searchByName">
+            <input class="redInput" type="text" name="byName" id="searchByName" placeholder="London">
             <button class="ByName">Search Now</button>
         </div>
-        <div class="coords">
+        <div class="coords centerFrame flexCols">
             <label for="byCoords">Search by coordinates</label>
-            <div class="wrapper" name="byCoords">
-                <input type="text" name="lat" id="lat" maxlength="3">
-                <input type="text" name="lon" id="lon" maxlength="3">
+            <div class="wrapper flexCols" name="byCoords">
+                <input class="redInput" type="text" name="lat" id="lat" maxlength="3" placeholder="Latitude">
+                <input class="redInput" type="text" name="lon" id="lon" maxlength="3" placeholder="Longitude">
             </div>
             <button class="byCoords">Search Now</button>
         </div>
     </div>
 
-    <div class="reporter">
+    <div class="reporter centerFrame limitWidth" id="reporter">
         <div class="top"></div>
         <div class="bottom"></div>
     </div>
 
-    <div class="gif">
+    <div class="gif centerFrame">
         <img src="" alt="" class="gif" class="gif">
     </div>
 
-    <div class="options"></div>
+    <div class="options centerFrame limitWidth">
+    </div>
     
     <script src="scripts.js"></script>
 </body>

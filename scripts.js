@@ -80,7 +80,7 @@ const interface = (() => {
     function createHumanReport(weatherObj){
         const x = weatherObj;
         const a = `The current weather in ${x.city || 'these coordinates'} qualifies as "${x.weather}-ish", reported mostly as ${x.description}.`; 
-        const b = `This information was taken at ${x.time}, temperature: ${x.temp}, humidity: ${x.humidity} and the sky was ${x.clouds} clouds. `
+        const b = `This information was taken on ${x.time}.\n\n\nTemperature: ${x.temp}, humidity: ${x.humidity} and the sky was ${x.clouds} clouds. `
         return [a,b]
     }
 
@@ -109,7 +109,7 @@ const interface = (() => {
     }
 
     function makeOptionBox(obj){
-        const container = document.createElement('div');
+        const container = document.createElement('a');
         const header = document.createElement('h2');
         [container, header].forEach(e => e.classList.add('optionBox'));
         let dataKey = `${obj.lat},${obj.lon}`;
@@ -119,6 +119,7 @@ const interface = (() => {
             information += ` (${obj.state})`;
         } 
         container.setAttribute('data-key',dataKey);
+        container.setAttribute('href','#reporter');
         header.textContent = information;
         container.appendChild(header)
         return container
@@ -157,6 +158,9 @@ byNameButton.addEventListener('click',async () => {
         const input = interface.getName(); // take the name of the location from user input 
         const locationArray = await weatherApp.byName(input) // fetch and jsonify server response
         interface.clearLocationBoxes();
+        const title = document.createElement('h2');
+        title.textContent = "You might also be interested in: "
+        interface.getOptionsBox().appendChild(title)
         for (let i = 0; i < locationArray.length; i++){
             const box = interface.makeOptionBox(locationArray[i])
             box.addEventListener('click', function() {

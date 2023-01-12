@@ -1,4 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@100;400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+
+.limitWidth{
+    max-width: 500px;
+    margin: auto;
+}
+
 body {
-    background-color: #333;
-    color: whitesmoke
+    background: rgb(79,79,88);
+    background: linear-gradient(180deg, rgba(79,79,88,1) 0%, rgba(78,37,37,1) 100%);
+    color: whitesmoke;
+    font-family: 'Sofia Sans', serif;
+    font-weight: 400;
+    min-height: 100vh;
+}
+
+h1, h3 {
+    text-align: center;
+}
+
+.container{
+    background-color: rgba(70, 3, 3, 0.2);
+    padding: 1rem 1rem;
+    border: rgba(200, 12, 12, 0.8) solid 1px;
+}
+
+.centerFrame {
+    margin: 1rem auto;
+}
+
+.flexCols{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.redInput {
+    background-color: rgba(70, 3, 3, 1);
+    color: whitesmoke;
+    padding: 0.3rem
+}
+
+.redInput::placeholder{
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Reporter */
+
+.reporter{
+    font-size: 1.2rem;
+    text-align: justify;
+    padding: 0 1rem;
+}
+
+.gif{
+    text-align: center;
+}
+
+/* option box */
+
+div.options{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+a.optionBox{
+    background-color: rgba(70, 3, 3, 0.2);
+    border: rgba(200, 3, 3, 0.8) 1px solid;
+    padding: 0 1rem;
+    text-decoration: none;
+    color: white;
+}
+
+a.optionBox:hover{
+    background-color: rgba(172, 84, 84, 0.2);
+    border: rgba(70, 3, 3, 0.8) 1px solid;
+    padding: 0 1rem;
+}
+
+img{
+    border-radius: px;
 }
